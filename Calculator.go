@@ -49,6 +49,7 @@ func trimN(numbers []int) []int {
 	return numbers
 }
 
+//Quita la primera posición del slice
 func trimOp(positionsArray []Op) []Op {
 
 	for i := 0; i < len(positionsArray)-1; i++ {
@@ -59,6 +60,7 @@ func trimOp(positionsArray []Op) []Op {
 	return positionsArray
 }
 
+//Elimina del slice de operaciones aquellas que ya se ejecutaron, y repara el slice que determina el orden de ejecución para que coincida con las nuevas posiciones
 func fixArrays(operations []string, positionsArray []Op) ([]string, []Op) {
 
 	var pos int
@@ -73,29 +75,14 @@ func fixArrays(operations []string, positionsArray []Op) ([]string, []Op) {
 		}
 	}
 
-	//fmt.Println("pos: ", pos)
-
 	for i := range positionsArray {
 		if positionsArray[i].pos > pos {
 			positionsArray[i].pos--
 		}
 	}
 
-	/*fmt.Println("++++++++++++")
-	  fmt.Println("positionsArray")
-	  for i, posOp := range positionsArray {
-	    fmt.Println("#", i, ": ", posOp)
-	  }
-
-	  fmt.Println("++++++++++++")
-	  fmt.Println("operationsArray")
-	  for i, op := range operations {
-	    fmt.Println("#", i, ": ", op)
-	  }*/
-
 	return operations, positionsArray
 }
-
 
 func hierarchicalExecution(numbers []int, operations []string, positionsArray []Op) int {
 
@@ -208,7 +195,7 @@ func hierarchicalExecution(numbers []int, operations []string, positionsArray []
 	return (*numbers)[len(*numbers)-1]
 }*/
 
-// Se convierten los números desde el string para posteriormente ejecutar las operaciones. Retorna los resultados de ambos modos de ejecución
+// Se convierten los números desde el string para posteriormente ejecutar las operaciones
 func operation(processableExpression string) int {
 
 	var numbers []int
@@ -268,6 +255,7 @@ func operation(processableExpression string) int {
 	return hierarchicalExecution(numbers, operations, a)//, sequentialExecution(&numbers, operations)
 }
 
+//Se recibe la expresión. Es donde se garantiza que los parentesis se resuelvan primero
 func expressionProcessing(expression string) string {
 
 	//Operaciones de signos
@@ -283,7 +271,7 @@ func expressionProcessing(expression string) string {
 		return strconv.Itoa(operation(expression))
 	} else {
 
-		//Se separa la expresión en diferentes partes según como los paréntesis las discriminan
+		//Se ejecutan los parentesis antes que cualquier otra parte de la expresión
 		for i, ch := range expression {
 			switch string(ch) {
 			case "(":
