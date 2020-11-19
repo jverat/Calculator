@@ -84,27 +84,42 @@ func fixArrays(operations []string, positionsArray []Op) ([]string, []Op) {
 	return operations, positionsArray
 }
 
-func hierarchicalExecution(numbers []int, operations []string, positionsArray []Op) int {
+func factorial(n int) (int, error) {
+
+	if n < 0 {
+		return 0, fmt.Errorf("factorial de número negativo no existe")
+	}
+
+	if n > 50 {
+		return 0, fmt.Errorf("número demasiado grande para que el resultado sea computable")
+	}
+
+	ans := 1
+
+	for i := 1; i <= n; i++ {
+		ans *= i
+	}
+
+	return ans, nil
+}
+
+func hierarchicalExecution(numbers []int, operations []string, positionsArray []Op) (int, error) {
 
 	switch operations[positionsArray[0].pos] {
 	case "!":
 		{
-			n := 0
+			ans , err := factorial(numbers[positionsArray[0].pos])
 
-			for i := numbers[positionsArray[0].pos]; i > 0; i-- {
-				if n == 0 {
-					n += i
-				} else {
-					n *= i
-				}
+			if err != nil {
+				return 0, err
 			}
 
-			numbers[positionsArray[0].pos] = n
+			numbers[positionsArray[0].pos] = ans
 		}
 	case "^":
 		{
 			numbers[positionsArray[0].pos] = int(math.Pow(float64(numbers[positionsArray[0].pos]), float64(numbers[positionsArray[0].pos])))
-			numbers[(positionsArray)[0].pos] = math.MaxInt64
+			numbers[positionsArray[0].pos] = math.MaxInt64
 			trimN(numbers)
 		}
 	case "*":
@@ -140,7 +155,7 @@ func hierarchicalExecution(numbers []int, operations []string, positionsArray []
 	}
 
 	if len(positionsArray) == 1 {
-		return numbers[0]
+		return numbers[0], nil
 	} else {
 		operations[positionsArray[0].pos] = ""
 		trimmedPosArr := trimOp(positionsArray)
@@ -196,7 +211,7 @@ func hierarchicalExecution(numbers []int, operations []string, positionsArray []
 }*/
 
 // Se convierten los números desde el string para posteriormente ejecutar las operaciones
-func operation(processableExpression string) int {
+func operation(processableExpression string) (int, error) {
 
 	var numbers []int
 	var operations []string
@@ -204,8 +219,7 @@ func operation(processableExpression string) int {
 	var indexN int
 
 	if !strings.ContainsAny(processableExpression, "1234567890+-*/%^!") {
-		fmt.Println("Invalid expression")
-		os.Exit(2)
+		return 0, fmt.Errorf("la expresión no contiene caracteres computables: %s", processableExpression)
 	}
 
 	for i, ch := range processableExpression {
@@ -220,8 +234,7 @@ func operation(processableExpression string) int {
 			number, err := strconv.Atoi(n)
 			if err != nil {
 				// handle error
-				fmt.Println(err)
-				os.Exit(2)
+				return 0, err
 			}
 			numbers = append(numbers, number)
 			indexN++
@@ -256,19 +269,24 @@ func operation(processableExpression string) int {
 }
 
 //Se recibe la expresión. Es donde se garantiza que los parentesis se resuelvan primero
-func expressionProcessing(expression string) string {
+func expressionProcessing(expression string) (string, error) {
 
 	//Operaciones de signos
 	expression = strings.ReplaceAll(expression, "--", "+")
 	expression = strings.ReplaceAll(expression, "++", "+")
 	expression = strings.ReplaceAll(expression, "+-", "-")
 	expression = strings.ReplaceAll(expression, "-+", "-")
-	fmt.Println("Flag: ", expression)
 
 	openingParenthesisPos := -1
 
 	if !strings.ContainsAny(expression, "()") {
-		return strconv.Itoa(operation(expression))
+		ans, err := operation(expression)
+
+		if err != nil {
+			return "", err
+		}
+
+		return strconv.Itoa(ans), nil
 	} else {
 
 		//Se ejecutan los parentesis antes que cualquier otra parte de la expresión
@@ -280,11 +298,15 @@ func expressionProcessing(expression string) string {
 				}
 			case ")":
 				{
-					expression = strings.Replace(expression, expression[openingParenthesisPos : i+1], strconv.Itoa(operation(expression[openingParenthesisPos+1 : i])), 1)
+					ans, err := operation(expression[openingParenthesisPos+1 : i])
+					if err != nil {
+						return "", err
+					}
+					expression = strings.Replace(expression, expression[openingParenthesisPos : i+1], strconv.Itoa(ans), 1)
 					if strings.ContainsAny(expression, "!^*/%+-") {
 						return expressionProcessing(expression)
 					} else {
-						return expression
+						return expression, nil
 					}
 				}
 			}
@@ -293,7 +315,7 @@ func expressionProcessing(expression string) string {
 		if strings.ContainsAny(expression, "!^*/%+-") {
 			return expressionProcessing(expression)
 		} else {
-			return expression
+			return expression, nil
 		}
 	}
 }
@@ -303,7 +325,12 @@ func main() {
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Println("Ingresa tu operación:")
-		expression, _ := reader.ReadString('\n')
+		expression, err := reader.ReadString('\n')
+
+		if err != nil {
+			fmt.Errorf(err.Error())
+			os.Exit(2)
+		}
 
 		if expression == "q" {
 			break
