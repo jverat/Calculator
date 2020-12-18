@@ -1,10 +1,8 @@
-package main
+package calculator
 
 import (
-	"bufio"
 	"fmt"
 	"math"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -35,15 +33,14 @@ func organizeOps(operations []Op) []Op {
 }
 
 //Borra los espacios vacios del slice
-func trimN(numbers []int) []int {
+func trimN(numbers []int, index int) []int {
 
-	for i, n := range numbers {
-		if n == math.MaxInt64 {
-			for j := i; j < len(numbers)-1; j++ {
-				numbers[j] = numbers[j+1]
-			}
-			numbers = numbers[0 : len(numbers)-1]
-		}
+	if index == 0 {
+		numbers = numbers[1:]
+	} else if index == len(numbers)-1 {
+		numbers = numbers[:index]
+	} else {
+		numbers = append(numbers[:index], numbers[index+1:]...)
 	}
 
 	return numbers
@@ -51,34 +48,39 @@ func trimN(numbers []int) []int {
 
 //Quita la primera posición del slice
 func trimOp(positionsArray []Op) []Op {
-
-	for i := 0; i < len(positionsArray)-1; i++ {
-		positionsArray[i] = (positionsArray)[i+1]
-	}
-
-	positionsArray = positionsArray[0 : len(positionsArray)-1]
+	positionsArray = positionsArray[1:]
 	return positionsArray
 }
 
 //Elimina del slice de operaciones aquellas que ya se ejecutaron, y repara el slice que determina el orden de ejecución para que coincida con las nuevas posiciones
-func fixArrays(operations []string, positionsArray []Op) ([]string, []Op) {
+func fixArrays(operations []string, index int, positionsArray []Op) ([]string, []Op) {
 
-	var pos int
+	/*for j := index; j < len(operations)-1; j++ {
+		operations[j] = operations[j+1]
+	}
 
-	for i, n := range operations {
-		if n == "" {
-			pos = i
-			for j := i; j < len(operations)-1; j++ {
-				operations[j] = operations[j+1]
-			}
-			operations = operations[0 : len(operations)-1]
-		}
+	operations = operations[0 : len(operations)-1]*/
+
+	if index == 0 {
+		operations = operations[1:]
+	} else if index == len(operations) {
+		operations = operations[:len(operations)-1]
+	} else {
+		operations = append(operations[:index], operations[index+1:]...)
 	}
 
 	for i := range positionsArray {
-		if positionsArray[i].pos > pos {
+		if positionsArray[i].pos > index {
 			positionsArray[i].pos--
 		}
+	}
+
+	return operations, positionsArray
+}
+
+func fixArraysMulti(operations []string, index []int, positionsArray []Op) ([]string, []Op) {
+	for _, n := range index {
+		operations, positionsArray = fixArrays(operations, n, positionsArray)
 	}
 
 	return operations, positionsArray
@@ -90,7 +92,7 @@ func factorial(n int) (int, error) {
 		return 0, fmt.Errorf("factorial de número negativo no existe")
 	}
 
-	if n > 50 {
+	if n > 20 {
 		return 0, fmt.Errorf("número demasiado grande para que el resultado sea computable")
 	}
 
@@ -103,12 +105,15 @@ func factorial(n int) (int, error) {
 	return ans, nil
 }
 
+//Se ejecutan las operaciones siguiendo el orden determinado en positionsArray
 func hierarchicalExecution(numbers []int, operations []string, positionsArray []Op) (int, error) {
 
 	switch operations[positionsArray[0].pos] {
 	case "!":
 		{
-			ans , err := factorial(numbers[positionsArray[0].pos])
+			fmt.Printf("%d!\n", numbers[positionsArray[0].pos])
+
+			ans, err := factorial(numbers[positionsArray[0].pos])
 
 			if err != nil {
 				return 0, err
@@ -118,97 +123,59 @@ func hierarchicalExecution(numbers []int, operations []string, positionsArray []
 		}
 	case "^":
 		{
+			fmt.Printf("%f ^ %f = %f\n", float64(numbers[positionsArray[0].pos]), float64(numbers[positionsArray[0].pos+1]), math.Pow(float64(numbers[positionsArray[0].pos]), float64(numbers[positionsArray[0].pos])))
+
 			numbers[positionsArray[0].pos] = int(math.Pow(float64(numbers[positionsArray[0].pos]), float64(numbers[positionsArray[0].pos])))
-			numbers[positionsArray[0].pos] = math.MaxInt64
-			trimN(numbers)
+			numbers = trimN(numbers, positionsArray[0].pos+1)
 		}
 	case "*":
 		{
+			fmt.Printf("%d %s %d\n", numbers[positionsArray[0].pos], operations[positionsArray[0].pos], numbers[positionsArray[0].pos+1])
+
 			numbers[positionsArray[0].pos] *= numbers[positionsArray[0].pos+1]
-			numbers[positionsArray[0].pos+1] = math.MaxInt64
-			trimN(numbers)
+			numbers = trimN(numbers, positionsArray[0].pos+1)
 		}
 	case "/":
 		{
+			fmt.Printf("%d %s %d\n", numbers[positionsArray[0].pos], operations[positionsArray[0].pos], numbers[positionsArray[0].pos+1])
+
 			numbers[positionsArray[0].pos] /= numbers[positionsArray[0].pos+1]
-			numbers[positionsArray[0].pos+1] = math.MaxInt64
-			trimN(numbers)
+			numbers = trimN(numbers, positionsArray[0].pos+1)
 		}
 	case "%":
 		{
+			fmt.Printf("%d %s %d\n", numbers[positionsArray[0].pos], operations[positionsArray[0].pos], numbers[positionsArray[0].pos+1])
+
 			numbers[positionsArray[0].pos] %= numbers[positionsArray[0].pos+1]
-			numbers[positionsArray[0].pos+1] = math.MaxInt64
-			trimN(numbers)
+			numbers = trimN(numbers, positionsArray[0].pos+1)
 		}
 	case "+":
 		{
+			fmt.Printf("%d %s %d\n", numbers[positionsArray[0].pos], operations[positionsArray[0].pos], numbers[positionsArray[0].pos+1])
+
 			numbers[positionsArray[0].pos] += numbers[positionsArray[0].pos+1]
-			numbers[positionsArray[0].pos+1] = math.MaxInt64
-			trimN(numbers)
+			numbers = trimN(numbers, positionsArray[0].pos+1)
 		}
 	case "-":
 		{
+			fmt.Printf("%d %s %d\n", numbers[positionsArray[0].pos], operations[positionsArray[0].pos], numbers[positionsArray[0].pos+1])
+
 			numbers[positionsArray[0].pos] -= numbers[positionsArray[0].pos+1]
-			numbers[positionsArray[0].pos+1] = math.MaxInt64
-			trimN(numbers)
+			numbers = trimN(numbers, positionsArray[0].pos+1)
 		}
 	}
 
 	if len(positionsArray) == 1 {
 		return numbers[0], nil
 	} else {
-		operations[positionsArray[0].pos] = ""
+		//operations[positionsArray[0].pos] = ""
 		trimmedPosArr := trimOp(positionsArray)
-		ops, posArr := fixArrays(operations, trimmedPosArr)
-		organizeOps(posArr)
+		ops, posArr := fixArrays(operations, positionsArray[0].pos, trimmedPosArr)
+		posArr = organizeOps(posArr)
+
 		return hierarchicalExecution(numbers, ops, posArr)
 	}
 }
-
-//Se ejecutan las operaciones según el orden en el que aparecen en la expresión
-/*func sequentialExecution(numbers *[]int, operations []string) int {
-
-	indexO := 0
-
-	for i, n := range *numbers {
-
-		if i == len(*numbers)-1 && operations[len(operations)-1] != "!" {
-			break
-		}
-
-		switch operations[indexO] {
-		case "+":
-			(*numbers)[i+1] += n
-		case "-":
-			(*numbers)[i+1] -= n
-		case "*":
-			(*numbers)[i+1] *= n
-		case "/":
-			(*numbers)[i+1] = n / (*numbers)[i+1]
-		case "%":
-			(*numbers)[i+1] = n % (*numbers)[i+1]
-		case "^":
-			(*numbers)[i+1] = int(math.Pow(float64(n), float64((*numbers)[i+1])))
-		case "!":
-			{
-				if (*numbers)[i] == 0 {
-					(*numbers)[i] = 0
-				} else {
-					for j := 1; j < n; j++ {
-						(*numbers)[i] *= n - j
-					}
-				}
-			}
-		default:
-			{
-				//fmt.Println("idk how you got in here but here is what is wrong i guess: " + operations[indexO])
-			}
-		}
-		indexO++
-	}
-
-	return (*numbers)[len(*numbers)-1]
-}*/
 
 // Se convierten los números desde el string para posteriormente ejecutar las operaciones
 func operation(processableExpression string) (int, error) {
@@ -241,9 +208,12 @@ func operation(processableExpression string) (int, error) {
 		} else if strings.ContainsAny(string(ch), "+-*/%^!") {
 			//Se obtienen los operadores
 			operations = append(operations, string(ch))
+		} else {
+			return 0, fmt.Errorf("la expresion contiene carácteres ilícitos: %s", string(ch))
 		}
 	}
 
+	//Se computan las operaciones determinando su jerarquía para posteriormente organizarlas por orden de ejecución
 	for i, o := range operations {
 		switch o {
 		case "!":
@@ -265,11 +235,11 @@ func operation(processableExpression string) (int, error) {
 
 	a := organizeOps(positionsArray)
 
-	return hierarchicalExecution(numbers, operations, a)//, sequentialExecution(&numbers, operations)
+	return hierarchicalExecution(numbers, operations, a) //, sequentialExecution(&numbers, operations)
 }
 
 //Se recibe la expresión. Es donde se garantiza que los parentesis se resuelvan primero
-func expressionProcessing(expression string) (string, error) {
+func ExpressionProcessing(expression string) (string, error) {
 
 	//Operaciones de signos
 	expression = strings.ReplaceAll(expression, "--", "+")
@@ -302,9 +272,9 @@ func expressionProcessing(expression string) (string, error) {
 					if err != nil {
 						return "", err
 					}
-					expression = strings.Replace(expression, expression[openingParenthesisPos : i+1], strconv.Itoa(ans), 1)
+					expression = strings.Replace(expression, expression[openingParenthesisPos:i+1], strconv.Itoa(ans), 1)
 					if strings.ContainsAny(expression, "!^*/%+-") {
-						return expressionProcessing(expression)
+						return ExpressionProcessing(expression)
 					} else {
 						return expression, nil
 					}
@@ -313,29 +283,9 @@ func expressionProcessing(expression string) (string, error) {
 		}
 
 		if strings.ContainsAny(expression, "!^*/%+-") {
-			return expressionProcessing(expression)
+			return ExpressionProcessing(expression)
 		} else {
 			return expression, nil
-		}
-	}
-}
-
-func main() {
-
-	for {
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Println("Ingresa tu operación:")
-		expression, err := reader.ReadString('\n')
-
-		if err != nil {
-			fmt.Errorf(err.Error())
-			os.Exit(2)
-		}
-
-		if expression == "q" {
-			break
-		} else {
-			fmt.Println(expressionProcessing(expression))
 		}
 	}
 }

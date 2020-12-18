@@ -20,8 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14a013e0-f567-4829-8b86-7c3a266dbf96" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Calculator_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Calculator.go" beforeDir="false" afterPath="$PROJECT_DIR$/Calculator.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/calculator/Calculator_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Calculator.go" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/Calculator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Calculator_test.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +52,11 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -58,7 +64,78 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Code\Go\projects\first\calculator" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Test.TestHierarchicalExecutionVariousGradesOps4 in dependencies/calculator (1)">
+    <configuration name="TestExpressionProcessing in dependencies/calculator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="first" />
+      <working_directory value="$PROJECT_DIR$/calculator" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="dependencies/calculator" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestExpressionProcessing\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHierarchicalExecutionVariousGradesOps4 in dependencies/calculator (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="first" />
+      <working_directory value="$PROJECT_DIR$/calculator" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="dependencies/calculator" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestHierarchicalExecutionVariousGradesOps4\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHierarchicalExecutionVariousGradesOps4 in dependencies/calculator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="first" />
+      <working_directory value="$PROJECT_DIR$/calculator" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="dependencies/calculator" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestHierarchicalExecutionVariousGradesOps4\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestOperation in dependencies/calculator (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="first" />
+      <working_directory value="$PROJECT_DIR$/calculator" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="dependencies/calculator" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestOperation\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestOperation in dependencies/calculator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="first" />
+      <working_directory value="$PROJECT_DIR$/calculator" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="dependencies/calculator" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestOperation\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestHierarchicalExecutionVariousGradesOps4 in dependencies/calculator (1)" />
+        <item itemvalue="Go Test.TestOperation in dependencies/calculator" />
+        <item itemvalue="Go Test.TestHierarchicalExecutionVariousGradesOps4 in dependencies/calculator" />
+        <item itemvalue="Go Test.TestOperation in dependencies/calculator (1)" />
+        <item itemvalue="Go Test.TestExpressionProcessing in dependencies/calculator" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -84,15 +161,67 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Testing implementation so a lot of debugging was made. Further tweaks are pending" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing implementation so a lot of debugging was made. Further tweaks are pending" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="277" y="57" key="SettingsEditor" timestamp="1605819836512">
+    <state x="561" y="246" key="#Go_Modules" timestamp="1605821353388">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605819836512" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605799965790">
+    <state x="561" y="246" key="#Go_Modules/0.0.1536.824@0.0.1536.824" timestamp="1605821353388" />
+    <state x="449" y="148" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1607109142990">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1605799965790" />
+    <state x="449" y="148" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1607109142990" />
+    <state width="1493" height="230" key="GridCell.Tab.0.bottom" timestamp="1606437507395">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="230" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606437507395" />
+    <state width="1493" height="230" key="GridCell.Tab.0.center" timestamp="1606437507395">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="230" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606437507395" />
+    <state width="1493" height="230" key="GridCell.Tab.0.left" timestamp="1606437507395">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="230" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606437507395" />
+    <state width="1493" height="230" key="GridCell.Tab.0.right" timestamp="1606437507395">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="230" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606437507395" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1606437413787">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606437413787" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1606437413787">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1606437413787" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1606437413787">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1606437413787" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1606437413787">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1606437413787" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1605822214651">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605822214651" />
+    <state x="183" y="147" width="1507" height="552" key="dock-window-1" timestamp="1606101923607">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="183" y="147" width="1507" height="552" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1606101923607" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1606323582569">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1606323582569" />
   </component>
 </project>
